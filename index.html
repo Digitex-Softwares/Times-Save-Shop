@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Time Shop Save — Welcome</title>
+
+  <!-- Font: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome (brands icons) -->
+  <script src="https://kit.fontawesome.com/a2d9b9f0d4.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root{
+      --bg1:#070416;
+      --g1:#7b2ff7; --g2:#ff6ec7; --g3:#2be7ff;
+      --glass: rgba(255,255,255,0.04);
+      --text:#eaf3ff;
+      --muted:rgba(234,243,255,0.65);
+      --accent-grad: linear-gradient(90deg,var(--g1),var(--g2),var(--g3));
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:var(--text);background:var(--bg1);-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+    *{box-sizing:border-box}
+    a{color:inherit;text-decoration:none}
+    .center-stage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden;}
+    /* Animated gradient background */
+    .bg-anim{
+      position:absolute;inset:0;
+      background: radial-gradient(600px 300px at 10% 20%, rgba(123,47,247,0.12), transparent),
+                  radial-gradient(500px 240px at 90% 80%, rgba(43,231,255,0.06), transparent),
+                  linear-gradient(180deg,#05020b 0%, #0b0630 50%, #07132a 100%);
+      z-index:0;
+      pointer-events:none;
+    }
+    /* floating orbs (light weight) */
+    .orb{position:absolute;border-radius:50%;filter:blur(28px);opacity:0.11;animation:float 10s ease-in-out infinite;}
+    .orb.o1{width:380px;height:380px;left:-10%;top:-10%;background:var(--g1);}
+    .orb.o2{width:260px;height:260px;right:-6%;bottom:-4%;background:var(--g3);animation-duration:14s}
+    .orb.o3{width:160px;height:160px;left:25%;bottom:-6%;background:var(--g2);animation-duration:12s}
+    @keyframes float{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-16px) translateX(10px)}100%{transform:translateY(0) translateX(0)}}
+    /* content card */
+    .card{
+      position:relative;z-index:10;
+      width:100%;max-width:920px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:14px; padding:22px; box-shadow:0 8px 40px rgba(0,0,0,0.6);
+      border:1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
+    }
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .logo {display:flex;gap:12px;align-items:center}
+    .logo-mark{
+      display:flex;align-items:center;justify-content:center;
+      font-weight:800;font-size:18px;color:#071126;
+      width:56px;height:56px;border-radius:12px;
+      background:var(--accent-grad);box-shadow:0 0 30px rgba(123,47,247,0.22);
+    }
+    .logo h1{margin:0;font-size:16px;letter-spacing:0.6px}
+    .muted{color:var(--muted);font-size:13px}
+    /* hero */
+    .hero{display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center;padding:20px 6px;}
+    .tagline{font-size:20px;font-weight:700;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 28px rgba(123,47,247,0.12)}
+    .lead{font-size:14px;color:var(--muted);max-width:680px}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+    .btn{
+      padding:12px 18px;border-radius:12px;border:0;font-weight:600;cursor:pointer;
+      background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      color:var(--text);box-shadow:0 6px 20px rgba(11,9,26,0.6);
+    }
+    .btn.primary{
+      background:var(--accent-grad); color:#071126; box-shadow:0 8px 30px rgba(123,47,247,0.18);
+    }
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
+    /* social icons row */
+    .socials{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:14px}
+    .socials a{width:44px;height:44px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.01)}
+    .socials a:hover{transform:translateY(-6px);transition:all .28s}
+    .socials i{font-size:20px}
+    /* splash overlay */
+    .splash{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,4,22,0.98), rgba(7,4,22,0.92));z-index:50;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;transition:opacity .6s ease}
+    .splash.hidden{opacity:0;pointer-events:none;transform:translateY(-6px)}
+    .splash .loader{width:80px;height:80px;border-radius:16px;background:var(--accent-grad);display:flex;align-items:center;justify-content:center;color:#071126;font-weight:800;box-shadow:0 12px 40px rgba(123,47,247,0.18)}
+    .splash small{color:var(--muted);font-size:13px}
+    /* terms modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,2,8,0.6);backdrop-filter: blur(6px);z-index:60;display:flex;align-items:center;justify-content:center;padding:18px}
+    .modal{width:100%;max-width:720px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.04)}
+    .modal h3{margin:0 0 8px 0}
+    .modal .terms-body{max-height:42vh;overflow:auto;color:var(--muted);font-size:14px;padding-right:6px}
+    .modal .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+    /* small screens */
+    @media (max-width:720px){
+      .card{padding:18px;border-radius:12px}
+      .tagline{font-size:18px}
+      .logo h1{font-size:14px}
+      .socials a{width:40px;height:40px}
+    }
+  </style>
+</head>
+<body>
+  <div class="center-stage">
+    <div class="bg-anim" aria-hidden="true"></div>
+    <div class="orb o1" aria-hidden="true"></div>
+    <div class="orb o2" aria-hidden="true"></div>
+    <div class="orb o3" aria-hidden="true"></div>
+
+    <div class="card" role="main" aria-labelledby="mainTitle">
+      <header>
+        <div class="logo" aria-hidden="false">
+          <div class="logo-mark" aria-hidden="true">TSS</div>
+          <div style="display:flex;flex-direction:column">
+            <h1 id="mainTitle" style="margin:0;font-size:16px">Time Shop Save</h1>
+            <div class="muted" style="margin-top:2px;font-size:12px">Local shops • Smart pickups • CashDrop</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn ghost" id="btnHow">How it works</button>
+          <button class="btn" id="btnStart">Let’s Begin</button>
+        </div>
+      </header>
+
+      <section class="hero" style="margin-top:14px">
+        <div class="tagline">Save Time. Shop Smart. Live Better.</div>
+        <div class="lead">Connecting you with local shops nearby — schedule pickups, pay with CashDrop, and skip the wait. Built to save your day.</div>
+
+        <div class="cta-row">
+          <button class="btn primary" id="btnCustomer">Join as Customer</button>
+          <button class="btn" id="btnShop">Join as Shopkeeper</button>
+        </div>
+
+        <div class="socials" aria-label="Social channels">
+          <!-- Use official FontAwesome brand icons. Replace hrefs with your channel links -->
+          <a title="TikTok" href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+          <a title="Instagram" href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+          <a title="Telegram" href="https://t.me" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram"></i></a>
+          <a title="WhatsApp" href="https://wa.me" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
+          <a title="X / Twitter" href="https://twitter.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i></a>
+          <a title="YouTube" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+          <a title="Facebook" href="https://www.facebook.com" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+        </div>
+      </section>
+
+      <div style="margin-top:16px;display:flex;justify-content:center">
+        <div class="muted" style="font-size:12px">By continuing you agree to our Terms & Privacy</div>
+      </div>
+    </div>
+
+    <!-- Splash overlay (2.5s) -->
+    <div class="splash" id="splash">
+      <div class="loader">TSS</div>
+      <small id="splashText">Connecting shops to people... please wait</small>
+    </div>
+
+    <!-- Terms modal (hidden by default unless not accepted) -->
+    <div class="modal-backdrop" id="termsModal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
+      <div class="modal" role="document">
+        <h3 id="termsTitle">Terms of Service & Privacy</h3>
+        <div class="terms-body" id="termsBody">
+          <p><strong>Short summary:</strong></p>
+          <p>Time Shop Save is a platform that connects customers with nearby local shops so you can schedule quick pickups and manage payments via the CashDrop Wallet. We use location data only to show shops near you and to help with pickups. We store minimal personal data needed to run orders and wallet transactions. We do not share your data with third parties without consent; full details are in the full Terms & Privacy pages.</p>
+          <p><strong>Important:</strong> By accepting you consent to cookie/local storage usage for basic features and your acceptance will be preserved on this device. To access the admin dashboard you must use a private admin link and staff credentials.</p>
+
+          <hr/>
+          <p style="font-size:13px;color:var(--muted)"><em>This is a prototype page. Replace these terms with your official legal text before going live.</em></p>
+        </div>
+
+        <div class="actions">
+          <button class="btn ghost" id="viewPolicy">View Full Policy</button>
+          <button class="btn primary" id="acceptTerms">Accept & Continue</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+  // Basic behavior for splash, terms modal, social links and redirects.
+  (function(){
+    const splash = document.getElementById('splash');
+    const termsModal = document.getElementById('termsModal');
+    const acceptBtn = document.getElementById('acceptTerms');
+    const viewPolicy = document.getElementById('viewPolicy');
+    const btnStart = document.getElementById('btnStart');
+    const btnCustomer = document.getElementById('btnCustomer');
+    const btnShop = document.getElementById('btnShop');
+    const btnHow = document.getElementById('btnHow');
+
+    // If user already accepted on this device -> skip modal
+    const accepted = localStorage.getItem('tss_accepted_terms') === '1';
+
+    // Show splash briefly then reveal main card
+    setTimeout(() => {
+      splash.classList.add('hidden');
+      // if not accepted, show modal automatically a bit after splash
+      if(!accepted) {
+        setTimeout(()=> showTerms(), 500);
+      }
+    }, 2500); // 2.5s intro
+
+    function showTerms(){
+      termsModal.style.display = 'flex';
+      // focus the accept button for accessibility
+      acceptBtn.focus();
+    }
+
+    function hideTerms(){
+      termsModal.style.display = 'none';
+    }
+
+    // Accept terms -> persist and proceed to login
+    acceptBtn.addEventListener('click', ()=>{
+      localStorage.setItem('tss_accepted_terms','1');
+      hideTerms();
+      // For now redirect to login.html (create later). In prototype, we can go to #explorer
+      window.location.href = 'login.html';
+    });
+
+    // View full policy (placeholder: could open a page or panel)
+    viewPolicy.addEventListener('click', ()=>{
+      alert('Open your full Terms & Privacy page (replace with your URL).');
+    });
+
+    // CTA behavior: Let’s Begin opens terms if not accepted; else route to login
+    btnStart.addEventListener('click', ()=>{
+      if(!localStorage.getItem('tss_accepted_terms')) showTerms();
+      else window.location.href = 'explore.html';
+    });
+
+    // direct roles (customer/shop)
+    btnCustomer.addEventListener('click', ()=>{
+      if(!localStorage.getItem('tss_accepted_terms')) showTerms();
+      else window.location.href = 'login.html?role=customer';
+    });
+    btnShop.addEventListener('click', ()=>{
+      if(!localStorage.getItem('tss_accepted_terms')) showTerms();
+      else window.location.href = 'login.html?role=shop';
+    });
+
+    // "How it works" lightweight demo
+    btnHow.addEventListener('click', ()=>{
+      // small in-page motion demo
+      const old = document.querySelector('.lead').innerText;
+      const lead = document.querySelector('.lead');
+      lead.innerText = 'Order → Schedule pickup → Pay with CashDrop → Walk in & collect. Save minutes every day.';
+      setTimeout(()=> lead.innerText = old, 4200);
+    });
+
+    // Social icons: open in new tab (links are placeholders)
+    document.querySelectorAll('.socials a').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        // If you want to track clicks, send analytics here
+      });
+    });
+
+    // accessibility: close modal with ESC
+    window.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && termsModal.style.display === 'flex') hideTerms();
+    });
+
+    // If already accepted at page load, hide modal entirely
+    if(accepted){
+      termsModal.style.display = 'none';
+    }
+  })();
+</script>
+</body>
+  </html>
+  
