@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Time Shop Save — Login / Register</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg1:#070416;
+  --g1:#7b2ff7; --g2:#ff6ec7; --g3:#2be7ff;
+  --text:#eaf3ff;
+  --muted:rgba(234,243,255,0.65);
+  --accent:linear-gradient(90deg,var(--g1),var(--g2),var(--g3));
+}
+*{box-sizing:border-box}
+body {
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:var(--bg1);
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.bg {
+  position:absolute;inset:0;
+  background:radial-gradient(600px 300px at 10% 20%, rgba(123,47,247,0.12), transparent),
+             radial-gradient(500px 240px at 90% 80%, rgba(43,231,255,0.08), transparent),
+             linear-gradient(180deg,#05020b 0%, #0b0630 50%, #07132a 100%);
+  z-index:-1;
+}
+.card {
+  width:92%;max-width:440px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;
+  padding:24px 26px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.5);
+  backdrop-filter:blur(10px);
+  position:relative;
+}
+.card h2 {
+  text-align:center;
+  font-size:20px;
+  margin-bottom:14px;
+  background:var(--accent);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+form { display:flex; flex-direction:column; gap:10px; }
+input,select,textarea {
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.05);
+  color:var(--text);
+  font-size:14px;
+}
+input:focus,textarea:focus,select:focus {outline:none;border-color:var(--g2);}
+button {
+  background:var(--accent);
+  color:#071126;
+  font-weight:700;
+  padding:12px;
+  border:0;
+  border-radius:10px;
+  cursor:pointer;
+}
+button:hover {opacity:0.95;}
+.switch {
+  text-align:center;
+  font-size:13px;
+  color:var(--muted);
+}
+.switch a {color:var(--g3);cursor:pointer;}
+.remember { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--muted); }
+.hidden { display:none !important; }
+.back-btn {
+  position:absolute;
+  top:12px;
+  left:12px;
+  background:rgba(255,255,255,0.05);
+  border:none;
+  color:var(--text);
+  border-radius:50%;
+  width:36px;height:36px;
+  font-size:18px;
+  cursor:pointer;
+}
+.back-btn:hover {background:rgba(255,255,255,0.1);}
+.small-note{font-size:12px;color:var(--muted);text-align:center;margin-top:4px;}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<div class="card" role="main" aria-labelledby="formTitle">
+  <button class="back-btn" onclick="history.back()" title="Back">←</button>
+  <h2 id="formTitle">Customer Login</h2>
+
+  <!-- LOGIN -->
+  <form id="loginForm" autocomplete="on">
+    <input id="loginEmail" type="email" placeholder="Email" required>
+    <input id="loginPassword" type="password" placeholder="Password" required>
+    <label class="remember"><input id="loginRemember" type="checkbox"> Remember me</label>
+    <button type="submit" id="loginBtn">Login</button>
+    <div class="switch"><a id="forgotPass">Forgot Password?</a></div>
+    <div class="switch">Don't have an account? <a id="goRegister">Register</a></div>
+  </form>
+
+  <!-- REGISTER -->
+  <form id="registerForm" class="hidden" autocomplete="on">
+    <input id="regName" type="text" placeholder="Full Name" required>
+    <input id="regEmail" type="email" placeholder="Email" required>
+    <input id="regPassword" type="password" placeholder="Password" required>
+    <input id="regConfirm" type="password" placeholder="Confirm Password" required>
+
+    <!-- role selector (important) -->
+    <label style="font-size:13px;color:var(--muted)">Register as:</label>
+    <select id="regRole" required>
+      <option value="customer">Customer</option>
+      <option value="shop">Shopkeeper</option>
+    </select>
+
+    <!-- Shop fields appear only when regRole === 'shop' -->
+    <div id="shopExtra" class="hidden" style="display:flex;flex-direction:column;gap:8px;">
+      <input id="shopName" type="text" placeholder="Shop Name">
+      <input id="shopLocation" type="text" placeholder="Shop Location">
+      <textarea id="shopDesc" placeholder="Shop Description (optional)" rows="2" style="resize:none"></textarea>
+      <label style="font-size:13px;color:var(--muted)">Category</label>
+      <select id="shopCategory">
+        <option value="">Select Category (optional)</option>
+        <option>Grocery</option>
+        <option>Electronics</option>
+        <option>Clothing</option>
+        <option>Pharmacy</option>
+        <option>Bakery</option>
+        <option>Restaurants</option>
+        <option>Stationery</option>
+        <option>Beauty</option>
+        <option>Furniture</option>
+        <option>Sports</option>
+        <option>Shop</option>
+      </select>
+    </div>
+
+    <label class="remember"><input id="regRemember" type="checkbox"> Remember me</label>
+    <button type="submit" id="registerBtn">Register</button>
+    <div class="switch">Already have an account? <a id="goLogin">Login</a></div>
+    <div class="small-note">After registering you'll be able to upload optional profile/shop images from your dashboard/profile.</div>
+  </form>
+
+  <!-- FORGOT -->
+  <form id="forgotForm" class="hidden">
+    <h2 style="font-size:16px;margin:0 0 8px 0;text-align:center;">Reset Password</h2>
+    <input id="resetEmail" type="email" placeholder="Enter your registered email" required>
+    <button type="submit">Reset Password</button>
+    <div class="switch"><a id="backToLogin">Back to Login</a></div>
+  </form>
+</div>
+
+<script>
+/* --- helpers & element refs --- */
+const params = new URLSearchParams(window.location.search);
+const incomingRole = (params.get("role") || "").toLowerCase(); // optional ?role=shop
+
+const formTitle = document.getElementById("formTitle");
+const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
+const forgotForm = document.getElementById("forgotForm");
+const goRegister = document.getElementById("goRegister");
+const goLogin = document.getElementById("goLogin");
+const forgotPass = document.getElementById("forgotPass");
+const backToLogin = document.getElementById("backToLogin");
+const regRole = document.getElementById("regRole");
+const shopExtra = document.getElementById("shopExtra");
+
+/* Set initial form state according to incoming role param (index.html can link to login.html?role=shop) */
+function setLoginRole(role) {
+  if (role === "shop") {
+    formTitle.textContent = "Shopkeeper Login";
+  } else {
+    formTitle.textContent = "Customer Login";
+  }
+}
+setLoginRole(incomingRole || "customer");
+
+/* toggle helpers */
+function showLogin(){
+  loginForm.classList.remove("hidden");
+  registerForm.classList.add("hidden");
+  forgotForm.classList.add("hidden");
+  setLoginRole(incomingRole || "customer");
+}
+function showRegister(){
+  loginForm.classList.add("hidden");
+  registerForm.classList.remove("hidden");
+  forgotForm.classList.add("hidden");
+  // Set regRole default depending on incoming role
+  if(incomingRole==='shop') regRole.value='shop';
+  else regRole.value='customer';
+  updateShopExtra();
+  formTitle.textContent = regRole.value === 'shop' ? 'Shopkeeper Registration' : 'Customer Registration';
+}
+function showForgot(){
+  loginForm.classList.add("hidden");
+  registerForm.classList.add("hidden");
+  forgotForm.classList.remove("hidden");
+  formTitle.textContent = "Forgot Password";
+}
+
+/* show register/login event hooks */
+goRegister.addEventListener('click', (e)=>{ e.preventDefault(); showRegister(); });
+goLogin.addEventListener('click', (e)=>{ e.preventDefault(); showLogin(); });
+forgotPass.addEventListener('click', (e)=>{ e.preventDefault(); showForgot(); });
+backToLogin.addEventListener('click', (e)=>{ e.preventDefault(); showLogin(); });
+
+/* Show/hide shop fields when role changes */
+function updateShopExtra(){
+  if(regRole.value === 'shop'){
+    shopExtra.classList.remove('hidden');
+    // make shop fields required dynamically
+    document.getElementById('shopName').required = true;
+    document.getElementById('shopLocation').required = true;
+  } else {
+    shopExtra.classList.add('hidden');
+    document.getElementById('shopName').required = false;
+    document.getElementById('shopLocation').required = false;
+  }
+}
+regRole.addEventListener('change', ()=>{
+  updateShopExtra();
+  formTitle.textContent = regRole.value === 'shop' ? 'Shopkeeper Registration' : 'Customer Registration';
+});
+
+/* --- LocalStorage user functions --- */
+function saveUser(user){
+  // store under key "user:<email>"
+  localStorage.setItem(`user:${user.email.toLowerCase()}`, JSON.stringify(user));
+}
+function getUserByEmail(email){
+  if(!email) return null;
+  try {
+    return JSON.parse(localStorage.getItem(`user:${email.toLowerCase()}`));
+  } catch { return null; }
+}
+
+/* --- REGISTER handler --- */
+document.getElementById('registerForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('regPassword').value;
+  const confirm = document.getElementById('regConfirm').value;
+  const roleVal = regRole.value;
+
+  if(!name || !email || !pass || !confirm){
+    alert('Please fill all required fields.');
+    return;
+  }
+  if(pass !== confirm){
+    alert('Passwords do not match.');
+    return;
+  }
+  if(getUserByEmail(email)){
+    alert('An account with that email already exists. Please login or use another email.');
+    return;
+  }
+
+  const user = {
+    name, email, pass, role: roleVal,
+    createdAt: Date.now()
+  };
+
+  if(roleVal === 'shop'){
+    user.shopName = document.getElementById('shopName').value.trim();
+    user.location = document.getElementById('shopLocation').value.trim();
+    user.desc = document.getElementById('shopDesc').value.trim();
+    user.category = document.getElementById('shopCategory').value || '';
+    // minimal validation for shop-specific fields
+    if(!user.shopName || !user.location){
+      alert('Please provide Shop Name and Shop Location.');
+      return;
+    }
+  }
+
+  // Save user
+  saveUser(user);
+
+  // Optionally remember login (simulate)
+  if(document.getElementById('regRemember').checked){
+    localStorage.setItem('tss_last_login', email);
+  }
+
+  alert('Registration successful. Logging you in now...');
+  // redirect according to role
+  if(user.role === 'shop'){
+    // in full app you'd pass identifier; here just redirect to shopkeeper dashboard
+    window.location.href = 'shopkeeper.html';
+  } else {
+    window.location.href = 'profile.html';
+  }
+});
+
+/* --- LOGIN handler --- */
+document.getElementById('loginForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('loginPassword').value;
+
+  const user = getUserByEmail(email);
+  if(!user){
+    alert('No registered account found for that email.');
+    return;
+  }
+  if(user.pass !== pass){
+    alert('Incorrect password.');
+    return;
+  }
+
+  // Remember option
+  if(document.getElementById('loginRemember').checked){
+    localStorage.setItem('tss_last_login', email);
+  }
+
+  // Redirect based on stored role
+  if(user.role === 'shop'){
+    window.location.href = 'shopkeeper.html';
+  } else {
+    window.location.href = 'profile.html';
+  }
+});
+
+/* --- FORGOT handler --- */
+document.getElementById('forgotForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const email = document.getElementById('resetEmail').value.trim().toLowerCase();
+  const user = getUserByEmail(email);
+  if(!user){
+    alert('No account found for that email.');
+    return;
+  }
+  // Simple local reset - in real app you'd email or send SMS
+  const newPass = prompt('Enter your new password (local demo):');
+  if(!newPass) { alert('Password reset cancelled.'); return; }
+  user.pass = newPass;
+  saveUser(user);
+  alert('Password reset locally. Please login with your new password.');
+  showLogin();
+});
+
+/* Pre-fill email if last login remembered */
+const last = localStorage.getItem('tss_last_login');
+if(last){
+  document.getElementById('loginEmail').value = last;
+}
+
+/* If page was opened with ?role=shop, preset the login form title and direct register link */
+if(incomingRole === 'shop'){
+  setTimeout(()=>{ setLoginRole('shop'); }, 10);
+}
+</script>
+</body>
+</html>
